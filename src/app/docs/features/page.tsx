@@ -57,7 +57,7 @@ const features = [
   },
   {
     name: "Permanent WhatsApp Auth",
-    desc: "WhatsApp session is automatically saved to the macOS/iCloud Keychain on first connect. On subsequent launches, the session is restored from Keychain — no QR scan needed. Logout button on the Dashboard to clear the saved session.",
+    desc: "WhatsApp session is automatically saved to your platform-native credential store (macOS Keychain, Windows Credential Manager, Linux Secret Service) on first connect. On subsequent launches, the session is restored — no QR scan needed. Logout button on the Dashboard to clear the saved session.",
     icon: KeyRound,
     color: "text-amber-400",
   },

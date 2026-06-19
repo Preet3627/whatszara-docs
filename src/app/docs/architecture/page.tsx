@@ -50,7 +50,7 @@ export default function Architecture() {
 │                          └──────────────────────────┘   │
 │                                                           │
 │  ┌──────────────────────────────────────────────────┐    │
-│  │  macOS Keychain                                   │    │
+│  │  Credential Store                                  │    │
 │  │  - Session auth (whatsapp.db)                    │    │
 │  │  - Policy config (allowlist, perms, mode)         │    │
 │  └──────────────────────────────────────────────────┘    │
@@ -105,25 +105,40 @@ export default function Architecture() {
         </div>
       </Section>
 
-      <Section title="Permanent Authentication (macOS Keychain)">
+      <Section title="Credential Storage (Cross-Platform)">
         <div className="space-y-4 text-white/60">
-          <p>Whatszara uses the <strong className="text-white">macOS/iCloud Keychain</strong> via the <code className="text-emerald-400">security</code> CLI tool for two kinds of persistence:</p>
+          <p>Whatszara uses the <strong className="text-white">keyring</strong> crate which transparently maps to the platform-native credential store:</p>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-sky-400 mb-2">macOS</h4>
+              <p className="text-sm">iCloud Keychain (via Security framework)</p>
+            </div>
+            <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-2">Windows</h4>
+              <p className="text-sm">Credential Manager (via wincred)</p>
+            </div>
+            <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-amber-400 mb-2">Linux</h4>
+              <p className="text-sm">Secret Service / keyutils</p>
+            </div>
+          </div>
+          <p className="text-sm text-white/40">Two entries are stored, each with service name and username <code className="text-emerald-400">whatszara</code>:</p>
           <div className="grid gap-6 sm:grid-cols-2">
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-2">WhatsApp Session Auth</h4>
-              <p className="text-sm">Service name: <code className="text-emerald-400">whatszara-session</code>. On bridge connect, <code className="text-emerald-400">whatsapp.db</code> is base64-encoded and stored. On startup, it's decoded and restored — no QR scan needed.</p>
+              <p className="text-sm">Service: <code className="text-emerald-400">whatszara-wa-session</code>. On bridge connect, <code className="text-emerald-400">whatsapp.db</code> is base64-encoded and stored. On startup, it's decoded and restored — no QR scan needed.</p>
             </div>
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-amber-400 mb-2">Policy Config</h4>
-              <p className="text-sm">Service name: <code className="text-emerald-400">whatszara-config</code>. Stores allowlist, tool permissions, contact modes, active LLM provider. Auto-saved on every change. Auto-loaded on startup.</p>
+              <p className="text-sm">Service: <code className="text-emerald-400">whatszara-config</code>. Stores allowlist, tool permissions, contact modes. Auto-saved on every change. Auto-loaded on startup.</p>
             </div>
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
-              <h4 className="text-sm font-black uppercase tracking-widest text-sky-400 mb-2">Refactored Utilities</h4>
-              <p className="text-sm"><code className="text-emerald-400">save_keychain()</code>, <code className="text-emerald-400">load_keychain()</code>, <code className="text-emerald-400">delete_keychain()</code> all take a <code className="text-emerald-400">service</code> parameter, enabling reuse across session and config.</p>
+              <h4 className="text-sm font-black uppercase tracking-widest text-sky-400 mb-2">Keychain Utilities</h4>
+              <p className="text-sm"><code className="text-emerald-400">save_keychain()</code>, <code className="text-emerald-400">load_keychain()</code>, <code className="text-emerald-400">delete_keychain()</code> wrap the <code className="text-emerald-400">keyring</code> crate's <code className="text-emerald-400">Entry::set_password/get_password/delete_password</code>.</p>
             </div>
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-rose-400 mb-2">Logout</h4>
-              <p className="text-sm">Kills the bridge, deletes both keychain entries via <code className="text-emerald-400">delete-keychain</code>, removes the session file, and clears QR state — requiring a fresh scan.</p>
+              <p className="text-sm">Kills the bridge, deletes both keychain entries, removes the session file, and clears QR state — requiring a fresh scan.</p>
             </div>
           </div>
         </div>

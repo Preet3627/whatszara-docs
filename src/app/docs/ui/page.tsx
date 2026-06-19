@@ -92,7 +92,7 @@ export default function UI() {
               <li>• WhatsApp Bridge URL and API key (for Go bridge Bearer auth)</li>
               <li>• Ollama endpoint URL input</li>
               <li>• API key inputs for all 5 remote LLM providers</li>
-              <li>• <strong className="text-emerald-400">Config save/load/clear</strong> — persist settings to macOS Keychain, restore on startup, or clear stored config</li>
+              <li>• <strong className="text-emerald-400">Config save/load/clear</strong> — persist settings to platform-native credential store, restore on startup, or clear stored config</li>
               <li>• Config auto-saved on every permission/allowlist/mode change</li>
             </ul>
           </div>

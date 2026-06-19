@@ -36,7 +36,7 @@ make setup`}
             <pre className="rounded-3xl border border-white/5 bg-[#0a0c10] p-6 text-sm text-white/60 overflow-x-auto">
 {`make bridge`}
             </pre>
-            <p className="text-white/40 mt-3">Scan the QR code with your WhatsApp mobile app to link your account. The session is automatically saved to the macOS Keychain — on next launch, no QR scan is needed.</p>
+            <p className="text-white/40 mt-3">Scan the QR code with your WhatsApp mobile app to link your account. The session is automatically saved to your platform-native credential store — on next launch, no QR scan is needed.</p>
             <p className="text-white/40 mt-2">Optionally set <code className="text-emerald-400">API_KEY</code> env var to require Bearer auth on the bridge REST API.</p>
           </div>
           <div>
@@ -72,7 +72,12 @@ export GEMINI_API_KEY=...`}
 
       <Section title="Persistent Configuration">
         <div className="space-y-4 text-white/60">
-          <p>Whatszara stores two things in the macOS Keychain for persistence across restarts:</p>
+          <p>Whatszara stores two things in the platform-native credential store for persistence across restarts:</p>
+          <div className="grid gap-3 sm:grid-cols-3 text-sm">
+            <div className="rounded-2xl border border-white/5 bg-white/[0.03] p-4 text-center text-white/40">macOS: iCloud Keychain</div>
+            <div className="rounded-2xl border border-white/5 bg-white/[0.03] p-4 text-center text-white/40">Windows: Credential Manager</div>
+            <div className="rounded-2xl border border-white/5 bg-white/[0.03] p-4 text-center text-white/40">Linux: Secret Service</div>
+          </div>
           <div className="grid gap-6 sm:grid-cols-2">
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-2">WhatsApp Session</h4>
