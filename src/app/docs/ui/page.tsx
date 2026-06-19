@@ -6,7 +6,7 @@ export default function UI() {
       </div>
       <h1 className="text-5xl font-black uppercase tracking-tighter sm:text-6xl">Frontend UI</h1>
       <p className="text-xl font-medium leading-relaxed text-white/40">
-        The Tauri desktop app ships with a built-in web-based dashboard for managing providers, permissions, and monitoring.
+        The Tauri desktop app ships with a built-in web-based dashboard for managing providers, permissions, chat, and monitoring.
       </p>
 
       <Section title="Dashboard">
@@ -38,8 +38,10 @@ export default function UI() {
             <ul className="space-y-2">
               <li>• Toggle providers on/off</li>
               <li>• Select active provider from dropdown</li>
-              <li>• Live model list for Ollama</li>
-              <li>• Set API keys via environment variables</li>
+              <li>• Live model list fetching for all providers</li>
+              <li>• API key fields for each provider (Claude, Groq, Grok, Gemini)</li>
+              <li>• Ollama endpoint URL input with "Apply Endpoint" button</li>
+              <li>• First live-fetched model auto-selected as default</li>
             </ul>
           </div>
         </Section>
@@ -64,7 +66,9 @@ export default function UI() {
               <li>• Left panel: searchable contact list with avatars</li>
               <li>• Right panel: message history with incoming/outgoing bubbles</li>
               <li>• Message metadata: timestamps and media type indicators</li>
-              <li>• Pending actions panel for reviewing high-risk operations</li>
+              <li>• <strong className="text-amber-400">Pending actions panel</strong> — shows queued medium/high-risk operations with Approve/Reject buttons</li>
+              <li>• Badge count on pending actions showing number of items awaiting review</li>
+              <li>• 3-second polling for new pending actions</li>
               <li>• Messages fetched from SQLite via list_messages command</li>
             </ul>
           </div>
@@ -85,15 +89,17 @@ export default function UI() {
           <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8 space-y-4 text-white/60">
             <p>App configuration:</p>
             <ul className="space-y-2">
-              <li>• WhatsApp Bridge URL and API key</li>
-              <li>• Ollama endpoint</li>
-              <li>• Settings saved to localStorage</li>
+              <li>• WhatsApp Bridge URL and API key (for Go bridge Bearer auth)</li>
+              <li>• Ollama endpoint URL input</li>
+              <li>• API key inputs for all 5 remote LLM providers</li>
+              <li>• <strong className="text-emerald-400">Config save/load/clear</strong> — persist settings to macOS Keychain, restore on startup, or clear stored config</li>
+              <li>• Config auto-saved on every permission/allowlist/mode change</li>
             </ul>
           </div>
         </Section>
       </div>
 
-      <Section title="Tauri Integration">
+      <Section title="Tauri Commands">
         <div className="space-y-4 text-white/60">
           <p>The frontend communicates with the Rust backend via <strong className="text-white">Tauri commands</strong>:</p>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -104,6 +110,8 @@ export default function UI() {
               ["undo_last", "Undo last action"],
               ["list_models", "Fetch available models"],
               ["set_active_provider", "Switch provider"],
+              ["set_ollama_endpoint", "Set Ollama URL"],
+              ["set_api_key", "Set a provider's API key"],
               ["get_policy", "Get policy state"],
               ["update_permissions", "Toggle tool perms"],
               ["update_allowlist", "Add/remove JID"],
@@ -113,6 +121,12 @@ export default function UI() {
               ["list_contacts", "All contacts merged"],
               ["list_messages", "Messages for a chat"],
               ["logout_bridge", "Disconnect & clear auth"],
+              ["get_pending_actions", "List pending approvals"],
+              ["approve_action", "Approve pending action"],
+              ["reject_action", "Reject pending action"],
+              ["save_config", "Save config to Keychain"],
+              ["load_config", "Load config from Keychain"],
+              ["clear_config", "Clear config from Keychain"],
             ].map(([cmd, desc]) => (
               <div key={cmd} className="rounded-2xl border border-white/5 bg-white/[0.03] p-5">
                 <code className="text-emerald-400 text-sm font-mono">{cmd}</code>

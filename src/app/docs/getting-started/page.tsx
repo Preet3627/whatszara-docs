@@ -36,7 +36,8 @@ make setup`}
             <pre className="rounded-3xl border border-white/5 bg-[#0a0c10] p-6 text-sm text-white/60 overflow-x-auto">
 {`make bridge`}
             </pre>
-            <p className="text-white/40 mt-3">Scan the QR code with your WhatsApp mobile app to link your account.</p>
+            <p className="text-white/40 mt-3">Scan the QR code with your WhatsApp mobile app to link your account. The session is automatically saved to the macOS Keychain — on next launch, no QR scan is needed.</p>
+            <p className="text-white/40 mt-2">Optionally set <code className="text-emerald-400">API_KEY</code> env var to require Bearer auth on the bridge REST API.</p>
           </div>
           <div>
             <h4 className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-3">2. Start Desktop App</h4>
@@ -49,7 +50,7 @@ make setup`}
       </Section>
 
       <Section title="Configure LLM Provider">
-        <p className="text-white/60 mb-6">Set environment variables or configure in the desktop app GUI:</p>
+        <p className="text-white/60 mb-6">Set environment variables or configure in the desktop app GUI (Settings tab):</p>
         <pre className="rounded-3xl border border-white/5 bg-[#0a0c10] p-6 text-sm text-white/60 overflow-x-auto">
 {`# Ollama (default — works out of the box)
 export OLLAMA_ENDPOINT=http://localhost:11434
@@ -66,6 +67,45 @@ export XAI_API_KEY=...
 # Gemini
 export GEMINI_API_KEY=...`}
         </pre>
+        <p className="text-white/40 mt-4">API keys can also be entered directly in the desktop app's Settings tab. Use "Save Config" to persist them to the Keychain.</p>
+      </Section>
+
+      <Section title="Persistent Configuration">
+        <div className="space-y-4 text-white/60">
+          <p>Whatszara stores two things in the macOS Keychain for persistence across restarts:</p>
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-2">WhatsApp Session</h4>
+              <p className="text-sm">Auto-saved on first connect. Restored on startup — no QR scan needed on subsequent launches.</p>
+            </div>
+            <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-amber-400 mb-2">Policy Config</h4>
+              <p className="text-sm">Allowlist, tool permissions, contact modes, and provider settings. Auto-saved on change. Restored on startup. Save/Load/Clear buttons in Settings tab.</p>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section title="Understanding the Approval Flow">
+        <p className="text-white/60 mb-6">When an AI action requires approval, here is what happens:</p>
+        <div className="space-y-6">
+          <div className="flex items-start gap-6 rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 text-sm font-black">1</span>
+            <div><strong className="text-white">Action proposed</strong> — You send a message like "Open Firefox". The LLM interprets it and proposes a tool call.</div>
+          </div>
+          <div className="flex items-start gap-6 rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 text-sm font-black">2</span>
+            <div><strong className="text-white">Risk assessed</strong> — Low-risk actions (read volume, list files) execute immediately. Medium/high-risk actions go to a pending queue.</div>
+          </div>
+          <div className="flex items-start gap-6 rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 text-sm font-black">3</span>
+            <div><strong className="text-white">Approve in GUI</strong> — Open the desktop app's Chat tab. A pending actions panel shows the action with Approve / Reject buttons.</div>
+          </div>
+          <div className="flex items-start gap-6 rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 text-sm font-black">4</span>
+            <div><strong className="text-white">Result sent</strong> — Action executes. The result is logged in the undo journal and sent back to you via WhatsApp.</div>
+          </div>
+        </div>
       </Section>
 
       <Section title="Send Your First Command">
@@ -73,10 +113,10 @@ export GEMINI_API_KEY=...`}
         <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8">
           <p className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-2">Example messages:</p>
           <ul className="space-y-3 text-white/60">
-            <li>"<strong className="text-white">What is my current volume level?</strong>" — reads system volume</li>
-            <li>"<strong className="text-white">Open Firefox</strong>" — launches the app</li>
-            <li>"<strong className="text-white">Set volume to 30%</strong>" — changes system volume</li>
-            <li>"<strong className="text-white">Show me my desktop images</strong>" — scans for images</li>
+            <li>"<strong className="text-white">What is my current volume level?</strong>" — reads system volume (auto-executes)</li>
+            <li>"<strong className="text-white">Open Firefox</strong>" — launches the app (requires approval)</li>
+            <li>"<strong className="text-white">Set volume to 30%</strong>" — changes system volume (requires approval)</li>
+            <li>"<strong className="text-white">Show me my desktop images</strong>" — scans for images (auto-executes)</li>
           </ul>
         </div>
       </Section>
