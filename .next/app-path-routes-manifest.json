@@ -1,0 +1,14 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/docs/architecture/page": "/docs/architecture",
+  "/docs/components/page": "/docs/components",
+  "/docs/features/page": "/docs/features",
+  "/docs/getting-started/page": "/docs/getting-started",
+  "/docs/page": "/docs",
+  "/docs/permissions/page": "/docs/permissions",
+  "/docs/releases/page": "/docs/releases",
+  "/docs/ui/page": "/docs/ui",
+  "/downloads/page": "/downloads",
+  "/page": "/"
+}

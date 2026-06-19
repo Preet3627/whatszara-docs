@@ -1,0 +1,14 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/docs/architecture/page": "app/docs/architecture/page.js",
+  "/docs/components/page": "app/docs/components/page.js",
+  "/docs/features/page": "app/docs/features/page.js",
+  "/docs/getting-started/page": "app/docs/getting-started/page.js",
+  "/docs/page": "app/docs/page.js",
+  "/docs/permissions/page": "app/docs/permissions/page.js",
+  "/docs/releases/page": "app/docs/releases/page.js",
+  "/docs/ui/page": "app/docs/ui/page.js",
+  "/downloads/page": "app/downloads/page.js",
+  "/page": "app/page.js"
+}

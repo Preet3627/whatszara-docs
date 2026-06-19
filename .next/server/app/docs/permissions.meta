@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/docs/layout,_N_T_/docs/permissions/layout,_N_T_/docs/permissions/page,_N_T_/docs/permissions"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/docs/permissions/__PAGE__",
+    "/docs/permissions",
+    "/docs",
+    "/_index",
+    "/_head"
+  ]
+}

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://whatszara.pages.dev/sitemap.xml
