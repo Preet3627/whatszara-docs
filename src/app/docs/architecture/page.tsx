@@ -99,7 +99,7 @@ export default function Architecture() {
             </div>
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-sky-400 mb-2">Config Persistence</h4>
-              <p className="text-sm">Policy state (allowlist, permissions, contact modes) auto-saved to Keychain. Restored on startup via <code className="text-emerald-400">save_config/load_config/clear_config</code>.</p>
+              <p className="text-sm">Policy state (allowlist, permissions, contact modes) auto-saved to credential store. Restored on startup via <code className="text-emerald-400">save_config/load_config/clear_config</code>.</p>
             </div>
           </div>
         </div>
@@ -134,11 +134,11 @@ export default function Architecture() {
             </div>
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-sky-400 mb-2">Keychain Utilities</h4>
-              <p className="text-sm"><code className="text-emerald-400">save_keychain()</code>, <code className="text-emerald-400">load_keychain()</code>, <code className="text-emerald-400">delete_keychain()</code> wrap the <code className="text-emerald-400">keyring</code> crate's <code className="text-emerald-400">Entry::set_password/get_password/delete_password</code>.</p>
+              <p className="text-sm"><code className="text-emerald-400">save_keychain()</code>, <code className="text-emerald-400">load_keychain()</code>, <code className="text-emerald-400">delete_keychain()</code> wrap the <code className="text-emerald-400">keyring</code> crate's <code className="text-emerald-400">Entry::set_password/get_password/delete_credential</code>.</p>
             </div>
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-rose-400 mb-2">Logout</h4>
-              <p className="text-sm">Kills the bridge, deletes both keychain entries, removes the session file, and clears QR state — requiring a fresh scan.</p>
+              <p className="text-sm">Kills the bridge, deletes both credential store entries, removes the session file, and clears QR state — requiring a fresh scan.</p>
             </div>
           </div>
         </div>
