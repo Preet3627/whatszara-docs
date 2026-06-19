@@ -173,7 +173,7 @@ export default function Home() {
             and it executes commands on your desktop — shell, apps, media, file access — with a secure permission system.
             <br />
             <span className="mt-4 block text-sm font-black uppercase tracking-[0.4em] text-white/20">
-              Built by <span className="text-emerald-400">Preet3627</span> — MIT Licensed
+              Built by <span className="text-emerald-400">Preet3627 (Latestinssan)</span> — MIT Licensed
             </span>
           </motion.p>
 
@@ -411,7 +411,7 @@ export default function Home() {
 
           <div className="mt-40 flex flex-col items-center justify-between gap-10 border-t border-white/5 pt-20 md:flex-row">
             <div className="flex flex-col gap-2">
-              <p className="text-xs font-black uppercase tracking-[0.5em] text-white/10">              © 2026 Whatszara by Preet3627 &amp; Latestinssan. MIT Licensed.</p>
+              <p className="text-xs font-black uppercase tracking-[0.5em] text-white/10">              © 2026 Whatszara by Preet3627 (Latestinssan). MIT Licensed.</p>
               <p className="text-[10px] font-bold text-white/5 uppercase tracking-[0.3em]">
                 Based on <a href="https://github.com/lharries/whatsapp-mcp" className="text-white/20 hover:text-white">whatsapp-mcp</a> by Luke Harries
               </p>

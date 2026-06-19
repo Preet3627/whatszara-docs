@@ -59,9 +59,9 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
       </div>
 
       <footer className="border-t border-white/5 py-12 text-center">
-        <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/10">
-          © 2026 Whatszara — MIT Licensed
-        </p>
+          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/10">
+                    © 2026 Whatszara by Preet3627 (Latestinssan). MIT Licensed.
+                  </p>
       </footer>
     </div>
   );
