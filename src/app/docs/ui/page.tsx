@@ -46,12 +46,26 @@ export default function UI() {
 
         <Section title="Permissions Tab">
           <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8 space-y-4 text-white/60">
-            <p>Full policy management interface:</p>
+            <p>Full policy management interface with searchable contacts table:</p>
             <ul className="space-y-2">
               <li>• Per-tool permission toggles (Shell, File, Media, Apps, WhatsApp)</li>
-              <li>• Allowlist management — add/remove JIDs</li>
-              <li>• Contact mode selection per JID</li>
+              <li>• Searchable contacts table with allowlist checkboxes</li>
+              <li>• Per-contact mode dropdown (Assistant/Chat/Summarize/Blocked)</li>
               <li>• Risk profile reference cards</li>
+              <li>• All changes sync to the backend instantly</li>
+            </ul>
+          </div>
+        </Section>
+
+        <Section title="Chat Tab">
+          <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8 space-y-4 text-white/60">
+            <p>Built-in chat interface for monitoring conversations:</p>
+            <ul className="space-y-2">
+              <li>• Left panel: searchable contact list with avatars</li>
+              <li>• Right panel: message history with incoming/outgoing bubbles</li>
+              <li>• Message metadata: timestamps and media type indicators</li>
+              <li>• Pending actions panel for reviewing high-risk operations</li>
+              <li>• Messages fetched from SQLite via list_messages command</li>
             </ul>
           </div>
         </Section>
@@ -96,6 +110,9 @@ export default function UI() {
               ["update_contact_mode", "Set contact mode"],
               ["list_chats", "List WhatsApp chats"],
               ["search_contacts", "Search contacts"],
+              ["list_contacts", "All contacts merged"],
+              ["list_messages", "Messages for a chat"],
+              ["logout_bridge", "Disconnect & clear auth"],
             ].map(([cmd, desc]) => (
               <div key={cmd} className="rounded-2xl border border-white/5 bg-white/[0.03] p-5">
                 <code className="text-emerald-400 text-sm font-mono">{cmd}</code>

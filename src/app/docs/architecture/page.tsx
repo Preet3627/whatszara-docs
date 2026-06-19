@@ -51,7 +51,8 @@ export default function Architecture() {
           <ul className="space-y-2">
             <li>• Maintains WebSocket connection to WhatsApp</li>
             <li>• Handles QR code authentication</li>
-            <li>• Stores messages in SQLite database</li>
+            <li>• Stores messages in SQLite database (messages.db)</li>
+            <li>• Stores session/auth data in whatsapp.db</li>
             <li>• Exposes REST API on port 8080</li>
             <li>• The original whatsapp-mcp bridge — used with minor modifications</li>
           </ul>
@@ -77,6 +78,30 @@ export default function Architecture() {
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-amber-400 mb-2">Undo Journal</h4>
               <p className="text-sm">Every action logged with reverse action. Undo with a single command.</p>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section title="Permanent Authentication (macOS Keychain)">
+        <div className="space-y-4 text-white/60">
+          <p>WhatsApp session persistence uses the <strong className="text-white">macOS/iCloud Keychain</strong> via the <code className="text-emerald-400">security</code> CLI tool:</p>
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-2">On Connect</h4>
+              <p className="text-sm">When the bridge first reports connected status, the <code className="text-emerald-400">whatsapp.db</code> session file is read, base64-encoded, and stored as a generic password in the Keychain via <code className="text-emerald-400">security add-generic-password</code>.</p>
+            </div>
+            <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-sky-400 mb-2">On Startup</h4>
+              <p className="text-sm">Before starting the Go bridge, the app checks the Keychain for a saved session. If found, it decodes and writes the session file to <code className="text-emerald-400">store/whatsapp.db</code>, restoring the previous authenticated state without requiring a QR scan.</p>
+            </div>
+            <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-amber-400 mb-2">iCloud Sync</h4>
+              <p className="text-sm">The <code className="text-emerald-400">security</code> CLI automatically syncs generic passwords across devices via iCloud Keychain, enabling session portability.</p>
+            </div>
+            <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-rose-400 mb-2">Logout</h4>
+              <p className="text-sm">The Dashboard shows a "Logout & Disconnect" button when connected. Clicking it kills the bridge process, deletes the Keychain entry via <code className="text-emerald-400">security delete-generic-password</code>, removes the session file, and clears the QR state — requiring a fresh QR scan on next launch.</p>
             </div>
           </div>
         </div>

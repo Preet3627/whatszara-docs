@@ -1,4 +1,4 @@
-import { MessageSquare, Bot, ShieldCheck, Layers, Music, Zap, Globe, Undo } from "lucide-react";
+import { MessageSquare, Bot, ShieldCheck, Layers, Music, Zap, Globe, Undo, Contact, KeyRound, MessagesSquare } from "lucide-react";
 
 const features = [
   {
@@ -48,6 +48,24 @@ const features = [
     desc: "100% Rust + Go. No interpreters, no virtualenvs, no pip, no requirements.txt. One-click setup.sh installs everything — just Go, Node.js, and Rust. CI builds multi-platform binaries.",
     icon: Zap,
     color: "text-emerald-400",
+  },
+  {
+    name: "Contacts GUI with Search",
+    desc: "Searchable contacts table in the Permissions tab. Toggle allowlist membership and set per-contact modes (Assistant/Chat/Summarize/Blocked) directly from the GUI. No more manual JID entry.",
+    icon: Contact,
+    color: "text-sky-400",
+  },
+  {
+    name: "Permanent WhatsApp Auth",
+    desc: "WhatsApp session is automatically saved to the macOS/iCloud Keychain on first connect. On subsequent launches, the session is restored from Keychain — no QR scan needed. Logout button on the Dashboard to clear the saved session.",
+    icon: KeyRound,
+    color: "text-amber-400",
+  },
+  {
+    name: "Built-in Chat View",
+    desc: "Full chat interface with searchable contact list, message history display (incoming/outgoing bubbles with timestamps), and a pending actions panel for reviewing and approving/rejecting high-risk operations.",
+    icon: MessagesSquare,
+    color: "text-purple-400",
   },
 ];
 

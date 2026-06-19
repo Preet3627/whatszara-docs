@@ -58,6 +58,34 @@ export default function SecurityModel() {
         </div>
       </Section>
 
+      {/* Contacts Table */}
+      <Section title="Contacts Table">
+        <p className="text-white/60">
+          The Permissions tab features a searchable contacts table that unifies allowlist and contact mode management in a single view.
+          Contacts are fetched from the messages database (merging <code className="text-emerald-400">contacts</code> and <code className="text-emerald-400">chats</code> tables).
+        </p>
+        <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8">
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div className="rounded-3xl border border-white/5 bg-white/[0.03] p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-2">Search</h4>
+              <p className="text-sm text-white/60">Filter contacts by name or JID in real-time as you type.</p>
+            </div>
+            <div className="rounded-3xl border border-white/5 bg-white/[0.03] p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-sky-400 mb-2">Allowlist Toggle</h4>
+              <p className="text-sm text-white/60">Check/uncheck to add or remove a contact from the allowlist instantly.</p>
+            </div>
+            <div className="rounded-3xl border border-white/5 bg-white/[0.03] p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-amber-400 mb-2">Mode Dropdown</h4>
+              <p className="text-sm text-white/60">Set per-contact mode: Assistant, Chat Only, Summarize, or Blocked.</p>
+            </div>
+            <div className="rounded-3xl border border-white/5 bg-white/[0.03] p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-purple-400 mb-2">Live Sync</h4>
+              <p className="text-sm text-white/60">Changes are sent to the backend immediately and the policy cache is refreshed.</p>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* Tool Permissions */}
       <Section title="Tool Permissions">
         <p className="text-white/60">Each capability can be enabled or disabled independently.</p>
