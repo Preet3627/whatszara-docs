@@ -67,6 +67,8 @@ export default function UI() {
               <li>• Right panel: message history with incoming/outgoing bubbles</li>
               <li>• Message metadata: timestamps and media type indicators</li>
               <li>• <strong className="text-amber-400">Pending actions panel</strong> — shows queued medium/high-risk operations with Approve/Reject buttons</li>
+              <li>• <strong className="text-emerald-400">Batch approval</strong> — Approve All / Reject All buttons for bulk action management</li>
+              <li>• <strong className="text-purple-400">Thinking blocks</strong> — AI reasoning displayed between multi-step actions</li>
               <li>• Badge count on pending actions showing number of items awaiting review</li>
               <li>• 3-second polling for new pending actions</li>
               <li>• Messages fetched from SQLite via list_messages command</li>
@@ -94,10 +96,33 @@ export default function UI() {
               <li>• API key inputs for all 5 remote LLM providers</li>
               <li>• <strong className="text-emerald-400">Config save/load/clear</strong> — persist settings to platform-native credential store, restore on startup, or clear stored config</li>
               <li>• Config auto-saved on every permission/allowlist/mode change</li>
+              <li>• <strong className="text-purple-400">Chat Style selector</strong> — dropdown to choose from 9 predefined styles or write a custom system prompt</li>
             </ul>
           </div>
         </Section>
       </div>
+
+      <Section title="WhatsApp Ban Warning Banner">
+        <div className="rounded-[40px] border border-rose-500/10 bg-rose-500/[0.03] p-8 space-y-4 text-white/60">
+          <p>
+            Whatszara displays a <strong className="text-rose-400">warning banner</strong> at the top of the dashboard to alert you
+            when your WhatsApp account may be at risk of a ban. This is triggered by:
+          </p>
+          <ul className="space-y-2">
+            <li>• <strong className="text-white">Excessive message volume</strong> — sending/receiving too many messages in a short period</li>
+            <li>• <strong className="text-white">Suspicious activity patterns</strong> — rapid automated responses or bulk operations</li>
+            <li>• <strong className="text-white">Bridge disconnections</strong> — frequent reconnects can trigger WhatsApp's anti-automation systems</li>
+          </ul>
+          <div className="rounded-3xl border border-rose-500/20 bg-rose-500/[0.05] p-5 text-sm font-mono">
+            <p className="text-rose-400 font-black uppercase tracking-wider mb-2">⚠️ Ban Warning</p>
+            <p className="text-white/40">Your WhatsApp account may be at risk. Consider reducing message frequency or pausing the bridge.</p>
+          </div>
+          <p className="text-sm text-white/40">
+            The banner is dismissible and re-appears if the risk condition persists. It serves as an early warning system —
+            WhatsApp bans for unofficial clients can be permanent.
+          </p>
+        </div>
+      </Section>
 
       <Section title="Tauri Commands">
         <div className="space-y-4 text-white/60">
@@ -124,6 +149,9 @@ export default function UI() {
               ["get_pending_actions", "List pending approvals"],
               ["approve_action", "Approve pending action"],
               ["reject_action", "Reject pending action"],
+              ["approve_all_actions", "Approve all pending actions"],
+              ["reject_all_actions", "Reject all pending actions"],
+              ["set_chat_style", "Set chat style + custom prompt"],
               ["save_config", "Save config to Keychain"],
               ["load_config", "Load config from Keychain"],
               ["clear_config", "Clear config from Keychain"],

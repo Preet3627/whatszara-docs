@@ -49,6 +49,26 @@ make setup`}
         </div>
       </Section>
 
+      <Section title="WhatsApp Ban Warning">
+        <p className="text-white/60">
+          Whatszara uses the WhatsApp Web multidevice API via the Go bridge (<strong className="text-white">whatsmeow</strong>).
+          This is an unofficial client and <strong className="text-rose-400">may carry a risk of account bans</strong> if used aggressively.
+        </p>
+        <div className="rounded-[40px] border border-rose-500/10 bg-rose-500/[0.03] p-8 space-y-4">
+          <h4 className="text-sm font-black uppercase tracking-widest text-rose-400">Best Practices</h4>
+          <ul className="space-y-2 text-white/60 text-sm">
+            <li>• Use a secondary WhatsApp number if possible</li>
+            <li>• Avoid sending bulk messages at high frequency</li>
+            <li>• Keep the bridge connected — frequent reconnects increase risk</li>
+            <li>• Monitor the ban warning banner in the desktop app dashboard</li>
+            <li>• Consider disabling the bridge when not in active use</li>
+          </ul>
+          <p className="text-xs text-white/40 mt-4">
+            The ban warning banner is enabled by default and will alert you if unusual activity is detected.
+          </p>
+        </div>
+      </Section>
+
       <Section title="Configure LLM Provider">
         <p className="text-white/60 mb-6">Set environment variables or configure in the desktop app GUI (Settings tab):</p>
         <pre className="rounded-3xl border border-white/5 bg-[#0a0c10] p-6 text-sm text-white/60 overflow-x-auto">
@@ -110,6 +130,25 @@ export GEMINI_API_KEY=...`}
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 text-sm font-black">4</span>
             <div><strong className="text-white">Result sent</strong> — Action executes. The result is logged in the undo journal and sent back to you via WhatsApp.</div>
           </div>
+        </div>
+      </Section>
+
+      <Section title="Choose a Chat Style">
+        <p className="text-white/60 mb-6">
+          Before you start chatting, pick a personality for your AI. Open the <strong className="text-white">Settings tab</strong>
+          and select a chat style from the dropdown:
+        </p>
+        <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {["Professional 💼", "Casual 😊", "Friendly 🤗", "Witty 😏", "Formal 🎩", "Minimal ▪️", "Empathetic 💛", "Enthusiastic 🎉", "Technical ⚙️"].map((s) => (
+              <div key={s} className="rounded-2xl border border-white/5 bg-white/[0.03] px-5 py-4 text-sm text-white/60 font-medium text-center">
+                {s}
+              </div>
+            ))}
+          </div>
+          <p className="text-white/40 text-sm mt-4">
+            You can also select <strong className="text-white">Custom</strong> and write your own system prompt for full personality control.
+          </p>
         </div>
       </Section>
 

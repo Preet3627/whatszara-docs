@@ -1,4 +1,4 @@
-import { MessageSquare, Bot, ShieldCheck, Layers, Music, Zap, Globe, Undo, Contact, KeyRound, MessagesSquare } from "lucide-react";
+import { MessageSquare, Bot, ShieldCheck, Layers, Music, Zap, Globe, Undo, Contact, KeyRound, MessagesSquare, Palette, Brain, CheckCheck, TriangleAlert } from "lucide-react";
 
 const features = [
   {
@@ -66,6 +66,30 @@ const features = [
     desc: "Full chat interface with searchable contact list, message history display (incoming/outgoing bubbles with timestamps), and a pending actions panel for reviewing and approving/rejecting high-risk operations.",
     icon: MessagesSquare,
     color: "text-purple-400",
+  },
+  {
+    name: "Chat Style Modes",
+    desc: "Nine predefined chat styles (Professional, Casual, Friendly, Witty, Formal, Minimal, Empathetic, Enthusiastic, Technical) plus a fully custom option. Change the AI's personality without changing how it works.",
+    icon: Palette,
+    color: "text-purple-400",
+  },
+  {
+    name: "Multi-Action AI Responses",
+    desc: "AI can perform multiple actions in a single response, joined by thinking blocks and configurable delays between each step. Actions are processed sequentially with full per-action approval.",
+    icon: Brain,
+    color: "text-sky-400",
+  },
+  {
+    name: "Batch Approval",
+    desc: "Approve or reject all pending actions at once with a single click — or by replying ALLOW ALL / DENY ALL via WhatsApp. No more clicking through each action individually.",
+    icon: CheckCheck,
+    color: "text-emerald-400",
+  },
+  {
+    name: "WhatsApp Ban Warning",
+    desc: "A warning banner in the desktop app alerts you when your WhatsApp account may be at risk of being banned due to bridge usage. Helps you take preventive action.",
+    icon: TriangleAlert,
+    color: "text-rose-400",
   },
 ];
 

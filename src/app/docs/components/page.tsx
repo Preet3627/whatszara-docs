@@ -31,9 +31,9 @@ const components = [
   {
     name: "orchestrator.rs",
     path: "src/whatszara/orchestrator.rs",
-    desc: "Central orchestrator — ties policy, LLM, actions, pending approvals, and undo together.",
-    how: "process_message() (&mut self) checks contact mode and routes to LLM. ToolCall struct extracted via parse_tool_call() from LLM responses. Low-risk actions execute immediately; medium/high-risk actions create PendingAction entries in a queue. approve_pending_action() executes and logs; reject_pending_action() discards with notification. handle_action() uses propose() → evaluate() → execute(). Manages the undo journal.",
-    why: "Single entry point for all message processing. The pending action queue enables human-in-the-loop approval for dangerous operations without blocking the entire message pipeline.",
+    desc: "Central orchestrator — ties policy, LLM, actions, pending approvals, undo, and multi-action processing together.",
+    how: "process_message() (&mut self) checks contact mode and routes to LLM. LLM responses are parsed via parse_ai_response() which returns Vec<ActionStep> (instead of single Option<ToolCall>). Each ActionStep can be a tool call, a thinking block, or a delay. Low-risk actions execute immediately; medium/high-risk actions create PendingAction entries in a queue. approve_pending_action() executes and logs; reject_pending_action() discards with notification. Batch approval available via approve_all_actions() / reject_all_actions(). handle_action() uses propose() → evaluate() → execute(). Manages the undo journal.",
+    why: "Single entry point for all message processing. Multi-action support enables complex workflows. The pending action queue enables human-in-the-loop approval for dangerous operations without blocking the entire message pipeline.",
     icon: Layers,
     color: "text-amber-400",
   },

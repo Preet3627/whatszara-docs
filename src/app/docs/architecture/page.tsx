@@ -95,7 +95,7 @@ export default function Architecture() {
             </div>
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-rose-400 mb-2">Pending Actions</h4>
-              <p className="text-sm">Medium/high-risk tool calls enter a <code className="text-rose-400">PendingAction</code> queue. <code className="text-rose-400">ToolCall</code> struct parsed via <code className="text-rose-400">parse_tool_call()</code>. Must be approved or rejected via the GUI.</p>
+              <p className="text-sm">Medium/high-risk tool calls enter a <code className="text-rose-400">PendingAction</code> queue. <code className="text-rose-400">ActionStep</code> structs parsed via <code className="text-rose-400">parse_ai_response()</code> (returns <code className="text-rose-400">Vec&lt;ActionStep&gt;</code>). Supports thinking blocks, delays, and batch approval.</p>
             </div>
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-sky-400 mb-2">Config Persistence</h4>
@@ -146,7 +146,7 @@ export default function Architecture() {
 
       <Section title="Risk / Approval Flow">
         <div className="space-y-6 text-white/60">
-          <p>In Assistant mode, when the LLM proposes a tool call, the orchestrator evaluates its risk level:</p>
+          <p>In Assistant mode, when the LLM proposes actions, the orchestrator evaluates their risk level:</p>
           <div className="grid gap-6 sm:grid-cols-3">
             <div className="rounded-3xl border border-emerald-500/10 bg-emerald-500/[0.03] p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-2">Low Risk</h4>
@@ -164,10 +164,12 @@ export default function Architecture() {
           <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8">
             <h4 className="text-sm font-black uppercase tracking-widest text-sky-400 mb-4">Implementation</h4>
             <ul className="space-y-2 text-sm">
-              <li>• <code className="text-emerald-400">parse_tool_call()</code> extracts <code className="text-emerald-400">{"{"}"tool":"...","params":{...}{"}"}</code> from LLM responses</li>
-              <li>• <code className="text-emerald-400">PendingAction</code> struct: id, tool, params, risk, timestamp, sender</li>
+              <li>• <code className="text-emerald-400">parse_ai_response()</code> returns <code className="text-emerald-400">Vec&lt;ActionStep&gt;</code> — each step is a tool call, thinking block, or delay</li>
+              <li>• <code className="text-emerald-400">ActionStep</code> enum: <code className="text-emerald-400">ToolCall</code>, <code className="text-emerald-400">Thinking</code>, <code className="text-emerald-400">Delay</code></li>
+              <li>• <code className="text-emerald-400">PendingAction</code> struct: id, tool, params, risk, timestamp, sender, <strong className="text-emerald-400">thinking</strong>, <strong className="text-emerald-400">delay_ms</strong></li>
               <li>• <code className="text-emerald-400">approve_pending_action()</code> executes the action and logs it</li>
               <li>• <code className="text-emerald-400">reject_pending_action()</code> discards with a notification</li>
+              <li>• <code className="text-emerald-400">approve_all_actions()</code> / <code className="text-emerald-400">reject_all_actions()</code> for batch approval</li>
               <li>• Frontend polls <code className="text-emerald-400">get_pending_actions</code> every 3 seconds</li>
             </ul>
           </div>
@@ -186,15 +188,15 @@ export default function Architecture() {
           </div>
           <div className="flex items-start gap-6 rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-purple-500/10 text-purple-400 text-sm font-black">3</span>
-            <div><strong className="text-white">LLM processes</strong> — Message sent to active LLM provider for interpretation. <code className="text-emerald-400">set_endpoint()</code> / <code className="text-emerald-400">set_api_key()</code> configured from GUI settings.</div>
+            <div><strong className="text-white">LLM processes</strong> — Message sent to active LLM provider for interpretation. Chat style system prompt is injected into the LLM context.</div>
           </div>
           <div className="flex items-start gap-6 rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 text-sm font-black">4</span>
-            <div><strong className="text-white">Action proposed</strong> — LLM proposes a tool call → <code className="text-emerald-400">parse_tool_call()</code> extracts it → Policy engine evaluates risk → Low = auto-execute, Medium/High = create <code className="text-emerald-400">PendingAction</code></div>
+            <div><strong className="text-white">Actions proposed</strong> — LLM returns multi-step response → <code className="text-emerald-400">parse_ai_response()</code> extracts <code className="text-emerald-400">Vec&lt;ActionStep&gt;</code> (tool calls, thinking blocks, delays) → Policy engine evaluates each action's risk</div>
           </div>
           <div className="flex items-start gap-6 rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 text-sm font-black">5</span>
-            <div><strong className="text-white">Approval / Execution</strong> — Pending action approved via GUI → action executes → result recorded in undo journal → result sent back via WhatsApp</div>
+            <div><strong className="text-white">Approval / Execution</strong> — Actions approved via GUI (individual or batch) → actions execute sequentially with configured delays → results recorded in undo journal → result sent back via WhatsApp</div>
           </div>
         </div>
       </Section>

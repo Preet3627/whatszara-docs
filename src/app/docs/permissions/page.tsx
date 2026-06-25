@@ -209,6 +209,65 @@ export default function SecurityModel() {
         </div>
       </Section>
 
+      {/* Batch Approval */}
+      <Section title="Batch Approval">
+        <p className="text-white/60">
+          When the AI proposes multiple actions at once, you can approve or reject all of them in a single operation.
+        </p>
+        <div className="grid gap-8">
+          <div className="rounded-[40px] border border-emerald-500/10 bg-emerald-500/[0.03] p-8 lg:p-12">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 text-sm font-black">B</div>
+              <h3 className="text-xl font-black uppercase tracking-tight">GUI — One-Click Batch</h3>
+            </div>
+            <p className="text-white/60 mb-6">The pending actions panel in the Chat tab includes <strong className="text-white">Approve All</strong> and <strong className="text-white">Reject All</strong> buttons that act on every queued action at once.</p>
+            <div className="rounded-3xl border border-white/5 bg-[#03040b] p-6 font-mono text-sm space-y-3">
+              <p className="text-emerald-400/80">Pending actions: 3 items awaiting review</p>
+              <p className="text-white/30">1. Open Firefox (Medium)</p>
+              <p className="text-white/30">2. Set volume to 40% (Medium)</p>
+              <p className="text-white/30">3. Play playlist (Medium)</p>
+              <p className="text-white/40 border-t border-white/5 pt-3">[ <span className="text-emerald-400">Approve All</span> ] [ <span className="text-rose-400">Reject All</span> ]</p>
+            </div>
+          </div>
+
+          <div className="rounded-[40px] border border-sky-500/10 bg-sky-500/[0.03] p-8 lg:p-12">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500/10 text-sky-400 text-sm font-black">W</div>
+              <h3 className="text-xl font-black uppercase tracking-tight">WhatsApp — ALLOW ALL / DENY ALL</h3>
+            </div>
+            <p className="text-white/60 mb-6">Approve or reject all pending actions directly from your phone by replying with a batch command.</p>
+            <div className="rounded-3xl border border-white/5 bg-[#03040b] p-6 font-mono text-sm space-y-3">
+              <p className="text-emerald-400/80">AI: &quot;Proposing 3 actions — Open Firefox, Set volume to 40%, Play playlist&quot;</p>
+              <p className="text-white/30">Reply: <span className="text-emerald-400">ALLOW ALL</span></p>
+              <p className="text-white/40 text-xs mt-2">All 3 actions execute sequentially.</p>
+              <p className="text-white/30 mt-3">Reply: <span className="text-rose-400">DENY ALL</span></p>
+              <p className="text-white/40 text-xs">All 3 actions are discarded.</p>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Multi-Action Thinking / Delay */}
+      <Section title="Multi-Action Processing">
+        <p className="text-white/60">
+          When the LLM returns multiple <strong className="text-white">ActionStep</strong> items in a single response, they are processed sequentially with thinking blocks and configurable delays between each action.
+        </p>
+        <div className="grid gap-6 sm:grid-cols-3">
+          <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+            <h4 className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-2">ActionStep</h4>
+            <p className="text-sm text-white/60">The LLM response parser (<code className="text-emerald-400">parse_ai_response</code>) returns <code className="text-emerald-400">Vec&lt;ActionStep&gt;</code>. Each step is one of: <code className="text-emerald-400">ToolCall</code>, <code className="text-emerald-400">Thinking</code>, or <code className="text-emerald-400">Delay</code>.</p>
+          </div>
+          <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+            <h4 className="text-sm font-black uppercase tracking-widest text-amber-400 mb-2">Thinking Blocks</h4>
+            <p className="text-sm text-white/60">The AI can include reasoning notes between actions. These are displayed as thinking indicators in the chat UI (e.g., <em className="text-amber-400/80">&quot;First, let me open Firefox...&quot;</em>).</p>
+          </div>
+          <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+            <h4 className="text-sm font-black uppercase tracking-widest text-purple-400 mb-2">Configurable Delays</h4>
+            <p className="text-sm text-white/60">Each <code className="text-emerald-400">PendingAction</code> includes a <code className="text-emerald-400">delay_ms</code> field. The orchestrator waits this duration before executing the next action, allowing the system to settle between operations.</p>
+          </div>
+        </div>
+      </Section>
+
       {/* Audit & Undo */}
       <Section title="Audit Log">
         <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8 lg:p-12">

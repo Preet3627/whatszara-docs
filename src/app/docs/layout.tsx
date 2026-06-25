@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Cpu, Shield, Terminal, Layers, Globe, Download, FileText, Zap, ChevronRight } from "lucide-react";
+import { BookOpen, Cpu, Shield, Terminal, Layers, Globe, Download, FileText, Zap, ChevronRight, MessageSquare } from "lucide-react";
 
 const sidebarLinks = [
   { href: "/docs", label: "Overview", icon: BookOpen },
@@ -10,6 +10,7 @@ const sidebarLinks = [
   { href: "/docs/architecture", label: "Architecture", icon: Layers },
   { href: "/docs/components", label: "Components", icon: Cpu },
   { href: "/docs/features", label: "Features", icon: Globe },
+  { href: "/docs/chat-styles", label: "Chat Styles", icon: MessageSquare },
   { href: "/docs/permissions", label: "Policy & Permissions", icon: Shield },
   { href: "/docs/ui", label: "Frontend UI", icon: Terminal },
   { href: "/docs/releases", label: "Releases", icon: Download },
