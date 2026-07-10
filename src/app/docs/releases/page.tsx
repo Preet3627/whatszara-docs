@@ -16,13 +16,17 @@ export default function Releases() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://api.github.com/repos/Preet3627/whatszara/releases")
-      .then(res => res.json())
-      .then(data => {
-        setReleases(Array.isArray(data) ? data.slice(0, 10) : []);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    Promise.all([
+      fetch("https://api.github.com/repos/Preet3627/whatszara-docs/releases"),
+      fetch("https://api.github.com/repos/Preet3627/whatszara/releases"),
+    ]).then(async ([docsRes, appRes]) => {
+      let all: Release[] = [];
+      try { const d = await docsRes.json(); if (Array.isArray(d)) all = all.concat(d); } catch {}
+      try { const a = await appRes.json(); if (Array.isArray(a)) all = all.concat(a); } catch {}
+      all.sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
+      setReleases(all.slice(0, 10));
+      setLoading(false);
+    }).catch(() => setLoading(false));
   }, []);
 
   return (
@@ -32,17 +36,21 @@ export default function Releases() {
       </div>
       <h1 className="text-5xl font-black uppercase tracking-tighter sm:text-6xl">Releases</h1>
       <p className="text-xl font-medium leading-relaxed text-white/40">
-        Release history for Whatszara. All releases are built via GitHub Actions CI and distributed as multi-platform binaries.
+        Release history for Whatszara Docs and the Whatszara app. Built via GitHub Actions CI.
       </p>
 
       <div className="flex gap-4">
-        <a href="https://github.com/Preet3627/whatszara/releases" target="_blank"
+        <a href="https://github.com/Preet3627/whatszara-docs/releases" target="_blank"
            className="flex items-center gap-3 rounded-full bg-white/5 px-8 py-4 text-xs font-black uppercase tracking-[0.3em] text-white transition hover:bg-white/10">
-          <Download size={16} /> All Releases
+          <Download size={16} /> Docs Releases
         </a>
-        <a href="https://github.com/Preet3627/whatszara" target="_blank"
+        <a href="https://github.com/Preet3627/whatszara/releases" target="_blank"
            className="flex items-center gap-3 rounded-full border border-white/10 px-8 py-4 text-xs font-black uppercase tracking-[0.3em] text-white/40 transition hover:border-white">
-          <Github size={16} /> GitHub
+          <Download size={16} /> App Releases
+        </a>
+        <a href="https://github.com/Preet3627/whatszara-docs" target="_blank"
+           className="flex items-center gap-3 rounded-full border border-white/10 px-8 py-4 text-xs font-black uppercase tracking-[0.3em] text-white/40 transition hover:border-white">
+          <Github size={16} /> Docs GitHub
         </a>
       </div>
 
