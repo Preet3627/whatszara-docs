@@ -4,9 +4,9 @@ export const APP_INFO = {
   tagline: 'Your desktop, controlled via WhatsApp',
   description: 'Whatszara is a desktop assistant controlled via WhatsApp messages. Talk to an LLM through WhatsApp, and it executes commands on your desktop — shell, apps, media, file access — with a secure permission system.',
   authors: ['Preet3627 (Latestinssan)'],
-  website: 'https://github.com/Preet3627/whatszara',
+  website: 'https://github.com/Preet3627/Whatszara-Mesh-API',
   docs: '/docs',
-  github: 'https://github.com/Preet3627/whatszara',
-  releases: 'https://github.com/Preet3627/whatszara/releases',
+  github: 'https://github.com/Preet3627/Whatszara-Mesh-API',
+  releases: 'https://github.com/Preet3627/Whatszara-Mesh-API/releases',
   supportEmail: 'preet3627@example.com',
 };

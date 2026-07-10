@@ -108,15 +108,15 @@ export default function Home() {
   const [githubStats, setGithubStats] = useState({ stars: 0, forks: 0, open_issues: 0, contributors: 0, pull_requests: 0 });
 
   useEffect(() => {
-    fetch("https://api.github.com/repos/Preet3627/whatszara/releases/latest")
+    fetch("https://api.github.com/repos/Preet3627/Whatszara-Mesh-API/releases/latest")
       .then(res => res.json())
       .then(data => setLatestRelease(data))
       .catch(() => {});
 
     Promise.all([
-      fetch("https://api.github.com/repos/Preet3627/whatszara").then(res => res.json()),
-      fetch("https://api.github.com/repos/Preet3627/whatszara/contributors?per_page=100").then(res => res.json()),
-      fetch("https://api.github.com/search/issues?q=repo:Preet3627/whatszara+is:pr").then(res => res.json())
+      fetch("https://api.github.com/repos/Preet3627/Whatszara-Mesh-API").then(res => res.json()),
+      fetch("https://api.github.com/repos/Preet3627/Whatszara-Mesh-API/contributors?per_page=100").then(res => res.json()),
+      fetch("https://api.github.com/search/issues?q=repo:Preet3627/Whatszara-Mesh-API+is:pr").then(res => res.json())
     ])
     .then(([repoData, contributorsData, prData]) => {
       setGithubStats({

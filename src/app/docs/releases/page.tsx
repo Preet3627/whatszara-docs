@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { Download, Github, Tag } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Release {
   tag_name: string;
@@ -18,7 +20,7 @@ export default function Releases() {
   useEffect(() => {
     Promise.all([
       fetch("https://api.github.com/repos/Preet3627/whatszara-docs/releases"),
-      fetch("https://api.github.com/repos/Preet3627/whatszara/releases"),
+      fetch("https://api.github.com/repos/Preet3627/Whatszara-Mesh-API/releases"),
     ]).then(async ([docsRes, appRes]) => {
       let all: Release[] = [];
       try { const d = await docsRes.json(); if (Array.isArray(d)) all = all.concat(d); } catch {}
@@ -44,7 +46,7 @@ export default function Releases() {
            className="flex items-center gap-3 rounded-full bg-white/5 px-8 py-4 text-xs font-black uppercase tracking-[0.3em] text-white transition hover:bg-white/10">
           <Download size={16} /> Docs Releases
         </a>
-        <a href="https://github.com/Preet3627/whatszara/releases" target="_blank"
+        <a href="https://github.com/Preet3627/Whatszara-Mesh-API/releases" target="_blank"
            className="flex items-center gap-3 rounded-full border border-white/10 px-8 py-4 text-xs font-black uppercase tracking-[0.3em] text-white/40 transition hover:border-white">
           <Download size={16} /> App Releases
         </a>
@@ -81,8 +83,33 @@ export default function Releases() {
                   View <Download size={14} />
                 </a>
               </div>
-              <div className="prose prose-invert max-w-none text-white/60 text-sm leading-relaxed whitespace-pre-line">
-                {release.body?.split('\n').slice(0, 20).join('\n') || 'No release notes.'}
+              <div className="prose prose-invert max-w-none text-white/60 text-sm leading-relaxed">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}
+                  components={{
+                    code({ className, children, ...props }) {
+                      const isInline = !className;
+                      if (isInline) {
+                        return <code className="text-emerald-400 bg-emerald-500/5 px-1.5 py-0.5 rounded text-xs font-mono" {...props}>{children}</code>;
+                      }
+                      return (
+                        <pre className="bg-[#03040b] border border-white/5 rounded-3xl p-5 my-4 overflow-x-auto">
+                          <code className="text-emerald-400/80 text-xs font-mono leading-relaxed" {...props}>{children}</code>
+                        </pre>
+                      );
+                    },
+                    h1({ children }) { return <h1 className="text-2xl font-black text-white mt-8 mb-4">{children}</h1>; },
+                    h2({ children }) { return <h2 className="text-xl font-black text-white mt-6 mb-3">{children}</h2>; },
+                    h3({ children }) { return <h3 className="text-base font-black text-white mt-5 mb-2">{children}</h3>; },
+                    ul({ children }) { return <ul className="space-y-1.5 list-disc list-inside my-3">{children}</ul>; },
+                    ol({ children }) { return <ol className="space-y-1.5 list-decimal list-inside my-3">{children}</ol>; },
+                    li({ children }) { return <li className="text-white/50">{children}</li>; },
+                    strong({ children }) { return <strong className="text-white font-black">{children}</strong>; },
+                    a({ href, children }) { return <a href={href} target="_blank" className="text-emerald-400 hover:underline">{children}</a>; },
+                    p({ children }) { return <p className="my-3 text-white/60">{children}</p>; },
+                    hr() { return <hr className="border-white/5 my-6" />; },
+                  }}>
+                  {release.body?.split('\n').slice(0, 30).join('\n') || '*No release notes.*'}
+                </ReactMarkdown>
               </div>
             </div>
           ))
