@@ -9,7 +9,7 @@ const sections = [
   { href: "/docs/components", label: "Components", icon: Cpu,
     desc: "Every Rust module explained: policy, actions, LLM, orchestrator, undo." },
   { href: "/docs/features", label: "Features", icon: Globe,
-    desc: "Complete feature overview: multi-LLM, per-tool permissions, allowlist, contact modes." },
+    desc: "Complete feature overview: Mesh API Router (1000+ models), per-tool permissions, allowlist, contact modes." },
   { href: "/docs/permissions", label: "Policy & Permissions", icon: Shield,
     desc: "Propose → Evaluate → Execute: structured actions, risk profiles, allowlist." },
   { href: "/docs/ui", label: "Frontend UI", icon: Terminal,

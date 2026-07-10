@@ -34,13 +34,13 @@ export default function UI() {
       <div className="grid gap-8 lg:grid-cols-2">
         <Section title="Providers Tab">
           <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8 space-y-4 text-white/60">
-            <p>Configure and switch between 6 LLM providers:</p>
+            <p>Configure the <strong className="text-white">Mesh API Router</strong> — the single LLM provider for all models:</p>
             <ul className="space-y-2">
-              <li>• Toggle providers on/off</li>
-              <li>• Select active provider from dropdown</li>
-              <li>• Live model list fetching for all providers</li>
-              <li>• API key fields for each provider (Claude, Groq, Grok, Gemini)</li>
-              <li>• Ollama endpoint URL input with "Apply Endpoint" button</li>
+              <li>• Mesh API endpoint URL input with "Apply" button</li>
+              <li>• <code className="text-emerald-400">rsk_...</code> API key field</li>
+              <li>• Live model browser — fetches 1000+ models from <code className="text-emerald-400">GET /v1/models</code></li>
+              <li>• Per-model details: capabilities, context window, pricing, and provider info</li>
+              <li>• BYOK header fields (<code className="text-emerald-400">x-mesh-openai-key</code>, <code className="text-emerald-400">x-mesh-anthropic-key</code>, <code className="text-emerald-400">x-mesh-groq-key</code>)</li>
               <li>• First live-fetched model auto-selected as default</li>
             </ul>
           </div>
@@ -92,8 +92,9 @@ export default function UI() {
             <p>App configuration:</p>
             <ul className="space-y-2">
               <li>• WhatsApp Bridge URL and API key (for Go bridge Bearer auth)</li>
-              <li>• Ollama endpoint URL input</li>
-              <li>• API key inputs for all 5 remote LLM providers</li>
+              <li>• Mesh API endpoint URL input with "Apply" button</li>
+              <li>• Mesh API key input (<code className="text-emerald-400">rsk_...</code>) + BYOK header fields for per-model keys</li>
+              <li>• Live model browser with search, pricing, and capabilities display</li>
               <li>• <strong className="text-emerald-400">Config save/load/clear</strong> — persist settings to platform-native credential store, restore on startup, or clear stored config</li>
               <li>• Config auto-saved on every permission/allowlist/mode change</li>
               <li>• <strong className="text-purple-400">Chat Style selector</strong> — dropdown to choose from 9 predefined styles or write a custom system prompt</li>

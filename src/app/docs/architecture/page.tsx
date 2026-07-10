@@ -12,18 +12,19 @@ export default function Architecture() {
       <Section title="High-Level Diagram">
         <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8 font-mono text-sm leading-loose text-white/60 overflow-x-auto">
 {`┌──────────────────────────────────────────────────────────┐
-│                   Whatszara                               │
+│                   Whatszara — Mesh API Edition             │
 ├──────────────────────────────────────────────────────────┤
 │                                                           │
 │  ┌──────────────────┐     ┌──────────────────────────┐   │
 │  │  WhatsApp Layer   │     │   Tauri Desktop App      │   │
 │  │  (Go Bridge)      │────▶│                          │   │
 │  │  - whatsmeow      │     │  ┌──────────────────┐   │   │
-│  │  - SQLite store   │     │  │  LLM Providers    │   │   │
-│  │  - REST API :8080 │     │  │  - Ollama (local) │   │   │
-│  │  - API key auth   │     │  │  - Claude/Groq    │   │   │
-│  │  - contacts table │     │  │  - Grok/Gemini    │   │   │
-│  └────────┬──────────┘     │  │  - Vercel AI SDK  │   │   │
+│  │  - SQLite store   │     │  │  Mesh API Router  │   │   │
+│  │  - REST API :8080 │     │  │  (meshapi.ai)     │   │   │
+│  │  - API key auth   │     │  │  - 1000+ models   │   │   │
+│  │  - contacts table │     │  │  - BYOK upstream  │   │   │
+│  └────────┬──────────┘     │  │  - Model browser  │   │   │
+│           │                │  │  - Details panel  │   │   │
 │           │                │  └──────────────────┘   │   │
 │           │                │                          │   │
 │           │                │  ┌──────────────────┐   │   │
@@ -32,6 +33,7 @@ export default function Architecture() {
 │  │  + contacts      │     │  │  - Per-tool perms │   │   │
 │  └──────────────────┘     │  │  - Allowlist      │   │   │
 │                          │  │  - Contact modes  │   │   │
+│                          │  │  - CaptchaChallenge│   │   │
 │                          │  └──────────────────┘   │   │
 │                          │                          │   │
 │                          │  ┌──────────────────┐   │   │
@@ -50,9 +52,10 @@ export default function Architecture() {
 │                          └──────────────────────────┘   │
 │                                                           │
 │  ┌──────────────────────────────────────────────────┐    │
-│  │  Credential Store                                  │    │
+│  │  Credential Store (Keychain)                      │    │
 │  │  - Session auth (whatsapp.db)                    │    │
-│  │  - Policy config (allowlist, perms, mode)         │    │
+│  │  - Policy config (allowlist, perms, mode)        │    │
+│  │  - Mesh API key + model config                   │    │
 │  └──────────────────────────────────────────────────┘    │
 └──────────────────────────────────────────────────────────┘`}
         </div>
@@ -78,8 +81,8 @@ export default function Architecture() {
           <p>The desktop app is built with <strong className="text-white">Tauri v2</strong> and contains all core logic in Rust:</p>
           <div className="grid gap-6 sm:grid-cols-2">
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
-              <h4 className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-2">LLM Providers</h4>
-              <p className="text-sm">6 providers with unified chat interface. Live model list fetching for all providers via <code className="text-emerald-400">set_endpoint()</code> / <code className="text-emerald-400">set_api_key()</code> trait methods.</p>
+              <h4 className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-2">Mesh API Provider (meshapi.ai)</h4>
+              <p className="text-sm">Single <code className="text-emerald-400">MeshApiProvider</code> implements the <code className="text-emerald-400">LLMProvider</code> trait. Routes to 1000+ models via one API key. Supports <code className="text-emerald-400">GET /v1/models</code> for live model listing, <code className="text-emerald-400">GET /v1/models/:id</code> for per-model details (pricing, capabilities, context).</p>
             </div>
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-sky-400 mb-2">Policy Engine</h4>
@@ -133,6 +136,10 @@ export default function Architecture() {
               <p className="text-sm">Service: <code className="text-emerald-400">whatszara-config</code>. Stores allowlist, tool permissions, contact modes. Auto-saved on every change. Auto-loaded on startup.</p>
             </div>
             <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-sky-400 mb-2">Mesh API Config</h4>
+              <p className="text-sm">Service: <code className="text-emerald-400">whatszara-model-active</code> and <code className="text-emerald-400">whatszara-model-model</code>. Persists active provider and selected model across restarts via <code className="text-emerald-400">save_model_config()</code> / <code className="text-emerald-400">load_model_config()</code>.</p>
+            </div>
+            <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-sky-400 mb-2">Keychain Utilities</h4>
               <p className="text-sm"><code className="text-emerald-400">save_keychain()</code>, <code className="text-emerald-400">load_keychain()</code>, <code className="text-emerald-400">delete_keychain()</code> wrap the <code className="text-emerald-400">keyring</code> crate's <code className="text-emerald-400">Entry::set_password/get_password/delete_credential</code>.</p>
             </div>
@@ -140,6 +147,25 @@ export default function Architecture() {
               <h4 className="text-sm font-black uppercase tracking-widest text-rose-400 mb-2">Logout</h4>
               <p className="text-sm">Kills the bridge, deletes both credential store entries, removes the session file, and clears QR state — requiring a fresh scan.</p>
             </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section title="BYOK (Bring Your Own Key)">
+        <div className="space-y-4 text-white/60">
+          <p>Mesh API supports passing upstream provider keys via custom HTTP headers. This lets users use their own OpenAI, Anthropic, or Groq accounts through the Mesh API router, getting unified billing and model management while keeping their existing subscriptions.</p>
+          <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8">
+            <pre className="font-mono text-sm leading-relaxed text-white/40 overflow-x-auto">
+{`// Mesh API sends these headers to upstream providers:
+x-mesh-openai-key     → OpenAI
+x-mesh-anthropic-key  → Anthropic
+x-mesh-groq-key       → Groq
+
+// The Rust backend passes them automatically:
+headers.insert("x-mesh-openai-key",    openai_key);
+headers.insert("x-mesh-anthropic-key", anthropic_key);
+headers.insert("x-mesh-groq-key",      groq_key);`}
+            </pre>
           </div>
         </div>
       </Section>
@@ -158,7 +184,7 @@ export default function Architecture() {
             </div>
             <div className="rounded-3xl border border-rose-500/10 bg-rose-500/[0.03] p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-rose-400 mb-2">High Risk</h4>
-              <p className="text-sm">Creates a <code className="text-rose-400">PendingAction</code>. Always requires explicit approval — trust sessions cannot bypass. Shell commands and destructive operations.</p>
+              <p className="text-sm">Creates a <code className="text-rose-400">PendingAction</code>. Always requires explicit approval — trust sessions cannot bypass. Shell commands and destructive operations. May also require <strong className="text-rose-400">CaptchaChallenge</strong> — an image-based reCAPTCHA rendered as a local PNG with random characters for the user to solve in the GUI.</p>
             </div>
           </div>
           <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8">

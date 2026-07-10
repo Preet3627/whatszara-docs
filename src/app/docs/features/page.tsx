@@ -1,4 +1,4 @@
-import { MessageSquare, Bot, ShieldCheck, Layers, Music, Zap, Globe, Undo, Contact, KeyRound, MessagesSquare, Palette, Brain, CheckCheck, TriangleAlert } from "lucide-react";
+import { MessageSquare, Globe, ShieldCheck, Layers, Music, Zap, Search, Undo, Contact, KeyRound, MessagesSquare, Palette, Brain, CheckCheck, TriangleAlert } from "lucide-react";
 
 const features = [
   {
@@ -8,9 +8,9 @@ const features = [
     color: "text-emerald-400",
   },
   {
-    name: "6 LLM Providers",
-    desc: "Ollama (local, offline), Claude, Groq, Grok (xAI), Gemini, and Vercel AI SDK. All implemented as a unified ProviderRegistry trait in Rust. Switch providers at runtime from the GUI. Live model list fetching for Ollama.",
-    icon: Bot,
+    name: "Mesh AI Router (1000+ Models)",
+    desc: "Single Mesh API key (rsk_...) unlocks 1000+ models: OpenAI, Anthropic, Google, Meta, Mistral, DeepSeek, Groq, xAI, Cohere, Alibaba, Amazon Bedrock, and more. Live model browser with real-time search, per-model details panel showing pricing (prompt/completion per 1M tokens), context length, capabilities (tools, structured output, thinking, vision, audio, streaming), and provider tags. BYOK (Bring Your Own Key) supported for upstream providers — pass OpenAI, Anthropic, or Groq keys directly through Mesh API headers.",
+    icon: Globe,
     color: "text-sky-400",
   },
   {
@@ -101,7 +101,7 @@ export default function Features() {
       </div>
       <h1 className="text-5xl font-black uppercase tracking-tighter sm:text-6xl">Features</h1>
       <p className="text-xl font-medium leading-relaxed text-white/40">
-        Complete feature overview of Whatszara — from multi-LLM support to the permission system to the undo journal.
+        Complete feature overview of Whatszara — from the Mesh API router with 1000+ models to the permission system to the undo journal.
       </p>
 
       <div className="grid gap-6 sm:grid-cols-2">

@@ -32,8 +32,8 @@ const tabDetails = [
     summary: "Comprehensive docs covering every component — from the policy engine to the action system to the LLM provider abstraction.",
     bullets: [
       "Propose → Evaluate → Execute: every action is validated against per-tool permissions, allowlist, and contact modes before it runs.",
-      "6 LLM providers supported: Ollama (local), Claude, Groq, Grok, Gemini, Vercel AI SDK — all in Rust, zero Python.",
-      "Structured action types with automatic undo journal — reverse volume changes, pause music, and more with a single command."
+      "Mesh API (meshapi.ai) router with 1000+ models via a single API key — OpenAI, Anthropic, Google, Meta, Mistral, DeepSeek, Groq, xAI, Cohere, Alibaba and more. Zero Python.",
+      "AI contact management: the LLM can list/search contacts, send messages, and manage your WhatsApp contact list autonomously."
     ]
   },
   {
@@ -43,7 +43,7 @@ const tabDetails = [
     summary: "Two-component architecture: a Go WhatsApp bridge communicating with a Tauri desktop app (Rust). No interpreters, no virtualenvs, no pip.",
     bullets: [
       "WhatsApp Bridge (Go + whatsmeow): handles WebSocket connection, QR auth, message storage in SQLite.",
-      "Desktop App (Tauri + Rust): LLM providers, policy engine, action executors, undo journal, and GUI.",
+      "Desktop App (Tauri + Rust): Mesh API provider, policy engine, action executors, undo journal, and GUI.",
       "Shell disabled by default: you must explicitly enable it. Every tool category (shell, file, media, apps, WhatsApp) is independently toggleable."
     ]
   }
@@ -58,9 +58,9 @@ const featureHighlights = [
     glow: "rgba(37, 211, 102, 0.4)"
   },
   {
-    name: "Multi-LLM Engine",
-    description: "6 providers: Ollama (local), Claude, Groq, Grok, Gemini, Vercel AI SDK. Live model list fetching. Switch providers at runtime.",
-    icon: Bot,
+    name: "Mesh API Router",
+    description: "Single API key unlocks 1000+ models — OpenAI, Anthropic, Google, Meta, Mistral, DeepSeek, Groq, xAI, etc. Live model browser with search + per-model details (pricing, capabilities, context). BYOK for upstream providers.",
+    icon: Globe,
     color: "from-sky-500/20 to-blue-500/20",
     glow: "rgba(56, 189, 248, 0.4)"
   },
@@ -95,7 +95,7 @@ const featureHighlights = [
 ];
 
 const metrics = [
-  { label: "LLM Providers", value: "6" },
+  { label: "Models via Mesh API", value: "1000+" },
   { label: "Tool Categories", value: "5" },
   { label: "Risk Profiles", value: "3" },
   { label: "Languages", value: "2" },

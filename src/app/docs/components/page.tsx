@@ -1,12 +1,12 @@
-import { Cpu, Shield, Terminal, Layers, Globe, Download, Zap, Undo, MessageSquare } from "lucide-react";
+import { Cpu, Shield, Terminal, Layers, Globe, Download, Zap, Undo, MessageSquare, KeyRound, ImageUp } from "lucide-react";
 
 const components = [
   {
     name: "policy.rs",
     path: "src/whatszara/policy.rs",
-    desc: "Policy engine — the gatekeeper for all actions.",
-    how: "Defines ToolCategory, ToolPermissions, ContactMode (Assistant/Chat/Summarize/Blocked), RiskLevel, ActionProposal, PolicyDecision, and the PolicyEngine with allowlist support.",
-    why: "Separates security policy from action execution. Every action goes through propose → evaluate → execute, ensuring no action runs without policy validation.",
+    desc: "Policy engine — the gatekeeper for all actions. Now with image-based reCAPTCHA for high-risk actions.",
+    how: "Defines ToolCategory, ToolPermissions, ContactMode (Assistant/Chat/Summarize/Blocked), RiskLevel, ActionProposal, PolicyDecision, and the PolicyEngine with allowlist support. NEW: CaptchaChallenge struct with render_captcha_image() — generates a local PNG with random characters using the image crate (draw_line + draw_char). verify_captcha() Tauri command validates user input against the generated challenge. Captcha is triggered for high-risk actions to ensure human-in-the-loop.",
+    why: "Separates security policy from action execution. Every action goes through propose → evaluate → execute. The image-based captcha adds an extra security layer for destructive operations — bots/AI can't auto-approve high-risk actions.",
     icon: Shield,
     color: "text-emerald-400",
   },
@@ -22,18 +22,18 @@ const components = [
   {
     name: "llm.rs",
     path: "src/whatszara/llm.rs",
-    desc: "Multi-provider LLM abstraction with 6 backends and live model fetching.",
-    how: "LLMProvider trait + ProviderRegistry. Supports Ollama (live model list from /api/tags), Claude, Groq, Grok, Gemini, and Vercel AI SDK. The trait includes set_endpoint() and set_api_key() with default no-op implementations for configurability at runtime.",
-    why: "Users aren't locked into one LLM. Switch providers at runtime via the GUI. Live model fetching means no hardcoded model lists — the UI populates from the provider's actual available models.",
-    icon: Cpu,
+    desc: "Mesh API provider — a single AI router with 1000+ models.",
+    how: "MeshApiProvider implements the LLMProvider trait. Uses Mesh API's OpenAI-compatible /v1/chat/completions endpoint. list_models() fetches live models from GET /v1/models (flat JSON array of model objects with id, pricing, context_length, capabilities). get_model_details() fetches from GET /v1/models/:id for per-model details. BYOK support: passes x-mesh-openai-key, x-mesh-anthropic-key, x-mesh-groq-key headers when configured. Model persistence via save_model_config() / load_model_config() in keychain. (OllamaProvider kept as hidden fallback for local-only demo use.)",
+    why: "Single API key for 1000+ models eliminates the need for 5 separate provider integrations. BYOK lets users bring their own subscriptions. Live model listing means the UI is always up to date with Mesh API's catalog. Model details panel shows pricing, capabilities, and context for informed model selection.",
+    icon: Globe,
     color: "text-purple-400",
   },
   {
     name: "orchestrator.rs",
     path: "src/whatszara/orchestrator.rs",
-    desc: "Central orchestrator — ties policy, LLM, actions, pending approvals, undo, and multi-action processing together.",
-    how: "process_message() (&mut self) checks contact mode and routes to LLM. LLM responses are parsed via parse_ai_response() which returns Vec<ActionStep> (instead of single Option<ToolCall>). Each ActionStep can be a tool call, a thinking block, or a delay. Low-risk actions execute immediately; medium/high-risk actions create PendingAction entries in a queue. approve_pending_action() executes and logs; reject_pending_action() discards with notification. Batch approval available via approve_all_actions() / reject_all_actions(). handle_action() uses propose() → evaluate() → execute(). Manages the undo journal.",
-    why: "Single entry point for all message processing. Multi-action support enables complex workflows. The pending action queue enables human-in-the-loop approval for dangerous operations without blocking the entire message pipeline.",
+    desc: "Central orchestrator — ties policy, Mesh API provider, actions, pending approvals, undo, and multi-action processing together.",
+    how: "process_message() (&mut self) checks contact mode and routes to the active LLM provider. Enhanced system prompt includes AI contact management instructions — the LLM can list/search contacts, send messages, and manage the WhatsApp contact list autonomously. LLM responses are parsed via parse_ai_response() which returns Vec<ActionStep>. Low-risk actions execute immediately; medium/high-risk actions create PendingAction entries. Batch approval via approve_all_actions() / reject_all_actions(). Holds a ProviderRegistry with the MeshApiProvider (and optional hidden OllamaProvider).",
+    why: "Single entry point for all message processing. Multi-action support enables complex workflows. The enhanced system prompt gives the AI awareness of the user's contact list for smarter autonomous interactions.",
     icon: Layers,
     color: "text-amber-400",
   },

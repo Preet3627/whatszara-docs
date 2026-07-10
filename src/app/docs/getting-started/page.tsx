@@ -69,25 +69,29 @@ make setup`}
         </div>
       </Section>
 
-      <Section title="Configure LLM Provider">
-        <p className="text-white/60 mb-6">Set environment variables or configure in the desktop app GUI (Settings tab):</p>
-        <pre className="rounded-3xl border border-white/5 bg-[#0a0c10] p-6 text-sm text-white/60 overflow-x-auto">
-{`# Ollama (default — works out of the box)
-export OLLAMA_ENDPOINT=http://localhost:11434
-
-# Claude
-export ANTHROPIC_API_KEY=sk-ant-...
-
-# Groq
-export GROQ_API_KEY=gsk-...
-
-# Grok (xAI)
-export XAI_API_KEY=...
-
-# Gemini
-export GEMINI_API_KEY=...`}
-        </pre>
-        <p className="text-white/40 mt-4">API keys can also be entered directly in the desktop app's Settings tab. Use "Save Config" to persist them to the Keychain.</p>
+      <Section title="Configure Mesh API">
+        <p className="text-white/60 mb-6">Whatszara uses <strong className="text-white">Mesh API</strong> (meshapi.ai) as its single LLM router — one API key gives access to 1000+ models including Claude, GPT, Gemini, Groq, and more.</p>
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+            <h4 className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-2">Get a Key</h4>
+            <p className="text-sm text-white/60">Sign up at <strong className="text-white">meshapi.ai</strong> to get your <code className="text-emerald-400">rsk_...</code> API key.</p>
+          </div>
+          <div className="rounded-3xl border border-white/5 bg-[#0a0c10]/40 p-6">
+            <h4 className="text-sm font-black uppercase tracking-widest text-sky-400 mb-2">Set Endpoint</h4>
+            <p className="text-sm text-white/60">Enter the endpoint URL (<code className="text-emerald-400">https://meshapi.ai</code>) in the Settings tab and click <strong className="text-white">Apply</strong>.</p>
+          </div>
+        </div>
+        <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8 space-y-4">
+          <h4 className="text-sm font-black uppercase tracking-widest text-emerald-400">Per-Model API Keys (BYOK)</h4>
+          <p className="text-white/60 text-sm">Some models require their own API key to be set via Mesh API headers:</p>
+          <pre className="rounded-3xl border border-white/5 bg-[#03040b] p-6 text-sm text-white/60 overflow-x-auto">
+{`x-mesh-openai-key: sk-...
+x-mesh-anthropic-key: sk-ant-...
+x-mesh-groq-key: gsk-...`}
+          </pre>
+          <p className="text-white/40 text-sm">Configure these in the Settings tab alongside your Mesh API key. They are persisted to the Keychain via <strong className="text-white">Save Config</strong>.</p>
+        </div>
+        <p className="text-white/40 mt-4">The live model browser in the Settings tab fetches all available models from <code className="text-emerald-400">GET /v1/models</code> — pick any model and it auto-selects as the active provider.</p>
       </Section>
 
       <Section title="Persistent Configuration">
