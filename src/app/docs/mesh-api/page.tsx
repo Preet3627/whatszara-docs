@@ -8,7 +8,7 @@ export default function MeshApiPage() {
       </div>
       <h1 className="text-5xl font-black uppercase tracking-tighter sm:text-6xl">Mesh API</h1>
       <p className="text-xl font-medium leading-relaxed text-white/40">
-        Whatszara replaced 6 separate LLM providers with a single Mesh API router — one endpoint, one API key, 1000+ models.
+        Whatszara uses Mesh API as its single AI router — one endpoint, one API key, 1000+ models.
       </p>
 
       <Section title="Overview">
@@ -19,12 +19,11 @@ export default function MeshApiPage() {
             all through a single OpenAI-compatible endpoint.
           </p>
           <p>
-            Previously, Whatszara maintained individual provider integrations (Ollama, Claude, Groq, Grok, Gemini, Vercel AI SDK).
-            The <strong className="text-white">Mesh API Edition</strong> eliminated all of them, replacing 6 connection managers with a single
-            <code className="text-emerald-400"> MeshApiProvider</code> in <code className="text-emerald-400">llm.rs</code>.
+            The <strong className="text-white">Mesh API Edition</strong> uses a single <code className="text-emerald-400">MeshApiProvider</code>
+            in <code className="text-emerald-400">llm.rs</code> as the sole LLM provider.
           </p>
           <div className="rounded-[40px] border border-emerald-500/10 bg-emerald-500/5 p-8 text-center text-sm font-mono text-emerald-400/80 leading-loose">
-            6 providers → 1 Mesh API router → 1000+ models available through every feature
+            1 Mesh API router → 1000+ models available through every feature
           </div>
         </div>
       </Section>

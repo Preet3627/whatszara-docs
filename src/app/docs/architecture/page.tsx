@@ -182,7 +182,7 @@ headers.insert("x-mesh-groq-key",      groq_key);`}
             </div>
             <div className="rounded-3xl border border-rose-500/10 bg-rose-500/[0.03] p-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-rose-400 mb-2">High Risk</h4>
-              <p className="text-sm">Creates a <code className="text-rose-400">PendingAction</code>. Always requires explicit approval — trust sessions cannot bypass. Shell commands and destructive operations. May also require <strong className="text-rose-400">CaptchaChallenge</strong> — an image-based reCAPTCHA rendered as a local PNG with random characters for the user to solve in the GUI.</p>
+              <p className="text-sm">Creates a <code className="text-rose-400">PendingAction</code>. Always requires explicit approval — trust sessions cannot bypass. Shell commands and destructive operations. May also require <strong className="text-rose-400">CaptchaChallenge</strong> — an image-based reCAPTCHA (beta/experimental) rendered as a local PNG with random characters for the user to solve in the GUI.</p>
             </div>
           </div>
           <div className="rounded-[40px] border border-white/5 bg-[#0a0c10]/60 p-8">

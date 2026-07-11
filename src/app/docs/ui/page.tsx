@@ -136,7 +136,7 @@ export default function UI() {
               ["undo_last", "Undo last action"],
               ["list_models", "Fetch available models"],
               ["set_active_provider", "Switch provider"],
-              ["set_ollama_endpoint", "Set Ollama URL"],
+              ["set_mesh_api_endpoint", "Set Mesh API endpoint"],
               ["set_api_key", "Set a provider's API key"],
               ["get_policy", "Get policy state"],
               ["update_permissions", "Toggle tool perms"],
